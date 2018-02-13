@@ -120,11 +120,11 @@ class PandaDB(metaclass=ABCMeta):
         return df
 
     @abstractmethod
-    def retrieve(self):# NOTE TODO
+    def retrieve(self, comparator):
         """
-        retrieve all
+        retrieve all (THIS SHOULD BE DONE BY select()!!)
         retrieve all w/ same (blank)
-        retrieve most recent version of (^) 
+        retrieve most recent version of (^) this result (1 template result)
         """
         pass
 

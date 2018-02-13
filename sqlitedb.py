@@ -14,7 +14,7 @@ class SqliteDB(PandaDB):
         super().__init__(self.conn)
 
     def connect(self):
-        """ pandadb override """
+        """ pandadb override, sqlite connection method """
         self.conn = sql.connect(self.db)
 
     def close(self):
@@ -31,7 +31,7 @@ class SqliteDB(PandaDB):
         super().create(df, table)
 
     def query(self, stmnt):
-        """ pandadb override, normal sqlite query method """
+        """ pandadb override, sqlite query method """
         cur = self.conn.cursor()
         cur.execute(str(stmnt))
         self.conn.commit()
@@ -43,5 +43,5 @@ class SqliteDB(PandaDB):
     def serialize(self, df, fields):
         return super().serialize(df, fields)
 
-    def retrieve(self):# NOTE TODO
+    def retrieve(self):
         pass
