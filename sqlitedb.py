@@ -27,7 +27,7 @@ class SqliteDB(PandaDB):
     def table(self, df, table, action="fail"):
         super().table(df, table, action)
 
-    def create(self, df=None, table=None):
+    def create(self, df, table):
         super().create(df, table)
 
     def query(self, stmnt):
@@ -42,6 +42,3 @@ class SqliteDB(PandaDB):
 
     def serialize(self, df, fields):
         return super().serialize(df, fields)
-
-    def retrieve(self):
-        pass

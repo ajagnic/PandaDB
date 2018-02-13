@@ -49,9 +49,9 @@ class PandaDB(metaclass=ABCMeta):
         """
         if not query:
             stmnt = "SELECT * FROM {0}".format(str(table))
-            defres = pandas.read_sql(stmnt, self.conn)
+            defres = pandas.read_sql(sql=stmnt, con=self.conn)
             return defres
-        res = pandas.read_sql(str(query), self.conn, params=pars)
+        res = pandas.read_sql(sql=str(query), con=self.conn, params=pars)
         return res
 
     @abstractmethod
@@ -65,7 +65,7 @@ class PandaDB(metaclass=ABCMeta):
         :type action: str
         :param action: action to take if table exists: 'replace', 'append', or 'fail'
         """
-        df.to_sql(str(table), self.conn, if_exists=str(action))
+        df.to_sql(name=str(table), con=self.conn, if_exists=str(action))
 
     @abstractmethod
     def create(self, df, table):
@@ -77,11 +77,11 @@ class PandaDB(metaclass=ABCMeta):
         :param table: name of table
         """
         try:
-            df.to_sql(str(table), self.conn, if_exists="append")
+            df.to_sql(name=str(table), con=self.conn, if_exists="append")
         except:
             daf = self.select(table=str(table))
             daf = daf.append(df)
-            daf.to_sql(str(table), self.conn, if_exists="replace")
+            daf.to_sql(name=str(table), con=self.conn, if_exists="replace")
 
     @abstractmethod
     def query(self, stmnt):
@@ -116,21 +116,21 @@ class PandaDB(metaclass=ABCMeta):
         :return: pandas
         """
         for key in fields:
-            df[key] = df[key].apply(lambda x: json.dumps(x))
+            if key in df.columns.values.tolist():
+                df[key] = df[key].apply(lambda x: json.dumps(x))
         return df
 
     @abstractmethod
-    def retrieve(self, comparator):
+    def retrieve(self, table, col, val):
         """
-        retrieve all (THIS SHOULD BE DONE BY select()!!)
-        retrieve all w/ same (blank)
-        retrieve most recent version of (^) this result (1 template result)
+        :type table: str
+        :param table: name of table
+        :type col: str
+        :param col: name of column
+        :type val: any, enclosing quotes if str (eg. "'stringValue'")
+        :param val: name of value to search for
         """
-        pass
-
-
-# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~NOTE(s)
-# # list of col names: df.columns.values.tolist()
-# # ndf.index[-1] last index of DF
-# # df.at[1, 'id'] = 20
-# #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        stmnt = "SELECT * FROM {0} WHERE {1}={2};".format(str(table), str(col), str(val))
+        dfres = self.select(query=stmnt)
+        return dfres
+        # SELECT MAX(version) FROM test WHERE blah de blah;)
