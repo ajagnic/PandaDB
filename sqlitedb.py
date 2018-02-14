@@ -42,3 +42,6 @@ class SqliteDB(PandaDB):
 
     def serialize(self, df, fields):
         return super().serialize(df, fields)
+
+    def retrieve(self, table, col, val, latest=False):
+        return super().retrieve(table, col, val, latest)
