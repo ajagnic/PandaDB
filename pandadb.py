@@ -1,6 +1,7 @@
 """ abstract database class w/ default pandas-sql interface
 ~ NOTES ~
 *   pandas.to_sql method creates columns 'index' and 'level_0' for backup reference to original indices
+*   pandas.read_sql only really works for 'select' statements, use the query method for drops, inserts, etc.
 """
 import pandas
 import json
@@ -121,7 +122,7 @@ class PandaDB(metaclass=ABCMeta):
         return df
 
     @abstractmethod
-    def retrieve(self, table, col, val):
+    def retrieve(self, table, col, val, latest):
         """
         :type table: str
         :param table: name of table
@@ -129,8 +130,13 @@ class PandaDB(metaclass=ABCMeta):
         :param col: name of column
         :type val: any, enclosing quotes if str (eg. "'stringValue'")
         :param val: name of value to search for
+        :type latest: bool
+        :param latest: flag for returning only latest version of result
         """
+        if latest is True:
+            lstmnt = "SELECT * FROM {0} WHERE {1}={2} AND version=(SELECT MAX(version) FROM {0} WHERE {1}={2};);".format(str(table), str(col), str(val))
+            ldfres = self.select(query=lstmnt)
+            return ldfres
         stmnt = "SELECT * FROM {0} WHERE {1}={2};".format(str(table), str(col), str(val))
         dfres = self.select(query=stmnt)
         return dfres
-        # SELECT MAX(version) FROM test WHERE blah de blah;)
