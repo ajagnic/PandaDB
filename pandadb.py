@@ -123,7 +123,7 @@ class PandaDB(metaclass=ABCMeta):
 
     @abstractmethod
     def retrieve(self, table, col, val, latest):
-        """
+        """ wrapper around select, but builds query first and has latest version functionality
         :type table: str
         :param table: name of table
         :type col: str
