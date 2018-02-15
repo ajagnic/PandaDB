@@ -100,6 +100,7 @@ class PandaDB(metaclass=ABCMeta):
         :param table: name of table
         :return: boolean
         """
+        # NOTE could be done more elegantly
         try:
             bewl = self.select(table=str(table))
         except Exception as err:
