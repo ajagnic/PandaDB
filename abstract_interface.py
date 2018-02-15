@@ -25,7 +25,7 @@ class StorageInterface(metaclass=ABCMeta):
         raise NotImplementedError("subclass must implement this abstract method.")
 
     @abstractmethod
-    def retrieve_template_by_id(self, template_id, *args):
+    def retrieve_template_by_id(self, template_id):
         """
         Retrieves template by id
         :param template_id: the template id
