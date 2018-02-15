@@ -1,4 +1,4 @@
-""" pandadb tests """
+""" sqlitedb tests """
 import unittest
 import pandas
 import json
@@ -9,7 +9,7 @@ __version__='0.0.1'
 __author__='Adrian Agnic'
 
 
-class TestPandaDB(unittest.TestCase):
+class TestSqliteDB(unittest.TestCase):
     def setUp(self):
         self.db = SqliteDB(":memory:")
         self.db.connect()
