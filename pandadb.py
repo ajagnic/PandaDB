@@ -134,7 +134,7 @@ class PandaDB(metaclass=ABCMeta):
         :param latest: flag for returning only latest version of result
         """
         if latest is True:
-            lstmnt = "SELECT * FROM {0} WHERE {1}={2} AND version=(SELECT MAX(version) FROM {0} WHERE {1}={2};);".format(str(table), str(col), str(val))
+            lstmnt = "SELECT * FROM {0} WHERE {1}={2} AND version=(SELECT MAX(version) FROM {0} WHERE {1}={2});".format(str(table), str(col), str(val))
             ldfres = self.select(query=lstmnt)
             return ldfres
         stmnt = "SELECT * FROM {0} WHERE {1}={2};".format(str(table), str(col), str(val))
