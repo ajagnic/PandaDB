@@ -132,6 +132,7 @@ class PandaDB(metaclass=ABCMeta):
         :param val: name of value to search for
         :type latest: bool
         :param latest: flag for returning only latest version of result
+        :return: pandas
         """
         if latest is True:
             lstmnt = "SELECT * FROM {0} WHERE {1}={2} AND version=(SELECT MAX(version) FROM {0} WHERE {1}={2});".format(str(table), str(col), str(val))
