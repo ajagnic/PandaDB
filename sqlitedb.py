@@ -35,6 +35,7 @@ class SqliteDB(PandaDB):
         cur = self.conn.cursor()
         cur.execute(str(stmnt))
         self.conn.commit()
+        cur.close()
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     def exists(self, table):

@@ -2,6 +2,7 @@
 ~ NOTES ~
 *   pandas.to_sql method creates columns 'index' and 'level_0' for backup reference to original indices
 *   pandas.read_sql only really works for 'select' statements, use the query method for drops, inserts, etc.
+*   retrieve method is hard-coded to a search a column named 'version'
 """
 import pandas
 import json
