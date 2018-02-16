@@ -41,7 +41,7 @@ class TestStorageWorker(unittest.TestCase):
             storage_worker_store(self.interface, ('template', 'boof', 'woof'))
 
         # store template
-        # DELETE DB FILE BEFORE RUNNING TO AVOID DUPE TEMPLATE  
+        # DELETE DB FILE BEFORE RUNNING TO AVOID DUPE TEMPLATE
         storage_worker_store(self.interface, ('template', self.template_pd))
         r = self.interface.retrieve_template_by_id('dumb')
         self.assertIsInstance(r, object)
