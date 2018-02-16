@@ -1,7 +1,7 @@
 import json
+
 from .abstract_interface import StorageInterface
 from .sqlitedb import SqliteDB
-
 
 __version__ = '0.0.1'
 __author__ = 'Molly LeCompte'
@@ -37,8 +37,8 @@ class SqliteInterface(StorageInterface):
         return self.db.select(query='SELECT * FROM templates')
 
     def store_bstream_data(self, token, bstream_df):
-        serialized_df = list(bstream_df.select_dtypes(include=["object"]).columns)
-        self.db.create(self.db.serialize(bstream_df, ['location', 'tags']), f'{token}_data')
+        object_columns = list(bstream_df.select_dtypes(include=["object"]).columns)
+        self.db.create(self.db.serialize(bstream_df, object_columns), f'{token}_data')
 
     def retrieve_data(self, stream_token, *retrieval_args, **retrieval_kwargs):
         retrieval_args = [arg for arg in retrieval_args]
