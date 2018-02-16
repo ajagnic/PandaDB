@@ -47,7 +47,7 @@ class StorageInterface(metaclass=ABCMeta):
         raise NotImplementedError("subclass must implement this abstract method.")
 
     @abstractmethod
-    def store_bstream(self, bstream):
+    def store_bstream_data(self, bstream, token):
         """
         Stores bstream
         :param bstream: bstream dict

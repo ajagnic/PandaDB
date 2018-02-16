@@ -31,8 +31,7 @@ class SqliteInterface(StorageInterface):
 
         # HANDLE CASES WITH 0 OR MULTI RESULT
 
-    def store_bstream(self, bstream):
-        token = bstream["stream_token"]
+    def store_bstream_data(self, bstream, token):
         self.db.create(bstream, f'{token}_data')
 
     def retrieve_data(self, stream_token, *retrieval_args, **retrieval_kwargs):
