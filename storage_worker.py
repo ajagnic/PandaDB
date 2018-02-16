@@ -44,11 +44,12 @@ class StorageWorker(Thread):
 
 
     def run(self):
+        self.interface.open_connection()
         self.running = True
-        while self.running is True:
+        while True:
             item = self.q.get()
+            if item == 'stop_storage':
+                break
             storage_worker_store(self.interface, item)
-        self.interface.db.close()
-
-    def stop(self):
-        self.running = False
+        print('THREAD CLOSING')
+        self.interface.close_connection()
