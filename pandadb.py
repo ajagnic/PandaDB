@@ -2,6 +2,7 @@
 ~ NOTES ~
 *   pandas.to_sql method creates columns 'index' and 'level_0' for backup reference to original indices
 *   pandas.read_sql only really works for 'select' statements, use the query method for drops, inserts, etc.
+*   retrieve method is hard-coded to a search a column named 'version'
 """
 import pandas
 import json
@@ -100,6 +101,7 @@ class PandaDB(metaclass=ABCMeta):
         :param table: name of table
         :return: boolean
         """
+        # NOTE could be done more elegantly
         try:
             bewl = self.select(table=str(table))
         except Exception as err:
@@ -123,7 +125,7 @@ class PandaDB(metaclass=ABCMeta):
 
     @abstractmethod
     def retrieve(self, table, col, val, latest):
-        """
+        """ wrapper around select, but builds query first and has latest version functionality
         :type table: str
         :param table: name of table
         :type col: str
@@ -132,6 +134,7 @@ class PandaDB(metaclass=ABCMeta):
         :param val: name of value to search for
         :type latest: bool
         :param latest: flag for returning only latest version of result
+        :return: pandas
         """
         if latest is True:
             lstmnt = "SELECT * FROM {0} WHERE {1}={2} AND version=(SELECT MAX(version) FROM {0} WHERE {1}={2});".format(str(table), str(col), str(val))
