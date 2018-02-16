@@ -11,15 +11,17 @@ class SqliteInterface(StorageInterface):
     def __init__(self, db_file):
         super().__init__()
         self.db = SqliteDB(db_file)
+        self.db.connect()
 
-    def store_template(self, template):
-        self.db.create(template, 'templates')
+    def store_template(self, template_df):
+        self.db.create(template_df, 'templates')
 
     def retrieve_template_by_id(self, template_id):
         result_df = self.db.retrieve('templates', 'template_id', template_id)
 
         if result_df.size == 1:
-            return json.loads(result_df.iloc[0])
+            # return json.loads(result_df.iloc[0])
+            return result_df.iloc[0]
 
         # HANDLE CASES WITH 0 OR MULTI RESULT
 
@@ -31,7 +33,10 @@ class SqliteInterface(StorageInterface):
 
         # HANDLE CASES WITH 0 OR MULTI RESULT
 
-    def store_bstream_data(self, bstream, token):
+    def retrieve_all_templates(self):
+        return self.db.select(query='SELECT * FROM templates')
+
+    def store_bstream_data(self, token, bstream):
         self.db.create(bstream, f'{token}_data')
 
     def retrieve_data(self, stream_token, *retrieval_args, **retrieval_kwargs):

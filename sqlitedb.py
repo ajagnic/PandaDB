@@ -1,6 +1,6 @@
 """ sub-class of pandadb, utilizes sqlite3 """
 import sqlite3 as sql
-from pandadb import PandaDB
+from .pandadb import PandaDB
 
 __version__='0.0.1'
 __author__='Adrian Agnic'
