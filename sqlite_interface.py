@@ -55,6 +55,12 @@ class SqliteInterface(StorageInterface):
 
         return result
 
+    def retrieve_all_by_token(self, stream_token):# NEW
+        return self.db.retrieve("templates", "stream_token", f"'{stream_token}'")
+
+    def retrieve_current_by_id(self, template_id):# NEW
+        return self.db.retrieve("templates", "template_id", f"'{template_id}'", latest=True)
+
     def open_connection(self):
         self.db.connect()
 
