@@ -67,7 +67,8 @@ class PandaDB(metaclass=ABCMeta):
         :type action: str
         :param action: action to take if table exists: 'replace', 'append', or 'fail'
         """
-        df.to_sql(name=str(table), con=self.conn, if_exists=str(action))
+        if isinstance(df, pandas.DataFrame):
+            df.to_sql(name=str(table), con=self.conn, if_exists=str(action))
 
     @abstractmethod
     def create(self, df, table):
@@ -78,12 +79,13 @@ class PandaDB(metaclass=ABCMeta):
         :type table: str
         :param table: name of table
         """
-        try:
-            df.to_sql(name=str(table), con=self.conn, if_exists="append")
-        except:
-            daf = self.select(table=str(table))
-            daf = daf.append(df)
-            daf.to_sql(name=str(table), con=self.conn, if_exists="replace")
+        if isinstance(df, pandas.DataFrame):
+            try:
+                df.to_sql(name=str(table), con=self.conn, if_exists="append")
+            except:
+                daf = self.select(table=str(table))
+                daf = daf.append(df)
+                daf.to_sql(name=str(table), con=self.conn, if_exists="replace")
 
     @abstractmethod
     def query(self, stmnt):
@@ -118,10 +120,11 @@ class PandaDB(metaclass=ABCMeta):
         :param fields: names of fields to serialize
         :return: pandas
         """
-        for key in fields:
-            if key in df.columns.values.tolist():
-                df[key] = df[key].apply(lambda x: json.dumps(x))
-        return df
+        if isinstance(df, pandas.DataFrame):
+            for key in fields:
+                if key in df.columns.values.tolist():
+                    df[key] = df[key].apply(lambda x: json.dumps(x))
+            return df
 
     @abstractmethod
     def retrieve(self, table, col, val, latest):
