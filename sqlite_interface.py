@@ -61,6 +61,9 @@ class SqliteInterface(StorageInterface):
     def retrieve_current_by_id(self, template_id):# NEW
         return self.db.retrieve("templates", "template_id", f"'{template_id}'", latest=True)
 
+    def retrieve_latest(self):
+        pass
+
     def open_connection(self):
         self.db.connect()
 
