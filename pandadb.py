@@ -50,9 +50,14 @@ class PandaDB(metaclass=ABCMeta):
         :return: pandas
         """
         if not query:
-            stmnt = "SELECT * FROM {0}".format(str(table))
-            defres = pandas.read_sql(sql=stmnt, con=self.conn)
-            return defres
+            try:
+                stmnt = "SELECT * FROM {0}".format(str(table))
+                defres = pandas.read_sql(sql=stmnt, con=self.conn)
+            except:
+                print("No Results/No Table")
+                raise ValueError
+            else:
+                return defres
         res = pandas.read_sql(sql=str(query), con=self.conn, params=pars)
         return res
 
