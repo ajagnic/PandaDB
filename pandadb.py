@@ -4,9 +4,10 @@
 *   pandas.read_sql only really works for 'select' statements, use the query method for drops, inserts, etc.
 *   retrieve method is hard-coded to a search a column named 'version'
 """
-import pandas
 import json
 from abc import ABCMeta, abstractmethod
+
+import pandas
 
 __version__='0.0.1'
 __author__='Adrian Agnic'
