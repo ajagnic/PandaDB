@@ -52,7 +52,7 @@ class SqliteInterface(StorageInterface):
     def retrieve_data(self, stream_token, *retrieval_args, **retrieval_kwargs):
         retrieval_args = [arg for arg in retrieval_args]
         # ADD VALIDATION FOR RETRIEVAL ARGS
-        query = f'SELECT {retrieval_args} from {stream_token}_data'.replace("[", "").replace("]", "").replace("'", "")
+        query = f"SELECT {retrieval_args} from '{stream_token}_data';".replace("[", "").replace("]", "").replace("'*'", "*")
         if "start_ts" in retrieval_kwargs:
             start = retrieval_kwargs['start_ts']
             query = query + f' AND timestamp >= {start}'
@@ -60,6 +60,7 @@ class SqliteInterface(StorageInterface):
             end = retrieval_kwargs['end_ts']
             query = query + f' AND timestamp <= {end}'
 
+        print(query)
         result = self.db.select(query=query)
 
         return result
