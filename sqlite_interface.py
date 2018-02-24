@@ -60,7 +60,6 @@ class SqliteInterface(StorageInterface):
             end = retrieval_kwargs['end_ts']
             query = query + f' AND timestamp <= {end}'
 
-        print(query)
         result = self.db.select(query=query)
 
         return result
