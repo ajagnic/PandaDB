@@ -1,9 +1,13 @@
 """ sqlitedb tests """
+import json
 import unittest
+
 import pandas
+
 import json
 from time import sleep
-from ..sqlitedb import SqliteDB
+
+from strom.storage.sqlitedb import SqliteDB
 
 __version__='0.0.1'
 __author__='Adrian Agnic'
