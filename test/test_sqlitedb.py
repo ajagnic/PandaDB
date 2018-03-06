@@ -3,7 +3,7 @@ import unittest
 import pandas
 import json
 from time import sleep
-from sqlitedb import SqliteDB
+from ..sqlitedb import SqliteDB
 
 __version__='0.0.1'
 __author__='Adrian Agnic'
@@ -38,9 +38,9 @@ class TestSqliteDB(unittest.TestCase):
         self.assertIsNone(pandas.util.testing.assert_frame_equal(odaf, newdaf))
 
     def test_exists(self):
-        self.assertFalse(self.db.exists('test'))
-        self.db.table(df=self.daf, table='test', action='replace')
-        self.assertTrue(self.db.exists('test'))
+        self.assertFalse(self.db.exists('testy'))
+        self.db.table(df=self.daf, table='testy', action='replace')
+        self.assertTrue(self.db.exists('testy'))
 
     def test_serialize(self):
         serdaf = self.db.serialize(df=self.daf, fields=('name',))

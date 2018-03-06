@@ -56,12 +56,14 @@ class PandaDB(metaclass=ABCMeta):
                 defres = pandas.read_sql(sql=stmnt, con=self.conn)
             except:
                 print("No Results/No Table")
+                raise ValueError()
             else:
                 return defres
         try:
             res = pandas.read_sql(sql=str(query), con=self.conn, params=pars)
         except:
             print("No Results/No Table")
+            raise ValueError()
         else:
             return res
 
