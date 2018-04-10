@@ -6,6 +6,7 @@
 """
 import json
 from abc import ABCMeta, abstractmethod
+from time import sleep
 
 import pandas
 
@@ -50,20 +51,22 @@ class PandaDB(metaclass=ABCMeta):
         :param table: name of table
         :return: pandas
         """
+        sleep(1)
+
         if not query:
             try:
                 stmnt = "SELECT * FROM {0}".format(str(table))
                 defres = pandas.read_sql(sql=stmnt, con=self.conn)
             except:
                 print("No Results/No Table")
-                raise ValueError()
+                raise ValueError("No query, no Results/No Table")
             else:
                 return defres
         try:
             res = pandas.read_sql(sql=str(query), con=self.conn, params=pars)
         except:
             print("No Results/No Table")
-            raise ValueError()
+            raise ValueError("No Results/No Table")
         else:
             return res
 
